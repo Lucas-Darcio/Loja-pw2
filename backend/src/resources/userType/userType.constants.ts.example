@@ -1,0 +1,4 @@
+export enum UserTypes {
+    "ADMIN" = "a-secure-code",
+    "CLIENT" = "a-very-secure-code",
+}
