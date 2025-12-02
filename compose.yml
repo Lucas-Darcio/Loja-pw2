@@ -1,5 +1,6 @@
 services:
-  backend-dev: 
+  backend-dev:
+    container_name: backend-dev
     build:
       context: ./backend
       target: development
@@ -9,6 +10,23 @@ services:
     volumes:
       - ./backend:/app
     env_file: ./backend/.env
+
+
+  # frontend-dev: 
+  #   container_name: frontend-dev
+  #   build:
+  #     context: ./frontend
+  #     target: development
+  #   restart: always
+  #   ports:
+  #     - ${PORT_FRONTEND}:3000
+  #   volumes:
+  #     - ./frontend:/app
+  #   env_file: ./frontend/.env
+  #   depends_on:
+  #     - db
+  #     - backend-dev
+
   db:
     image: mysql:8.4.6-oraclelinux9
     restart: always
