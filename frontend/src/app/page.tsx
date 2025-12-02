@@ -1,8 +1,16 @@
 import ProductList from "@/views/product/list/ProductList";
-import Image from "next/image";
+import { ProductDto } from "@/views/product/products.types";
 
-export default function Home() {
+async function Home() {
+
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/product`)
+  const products: ProductDto[] =  await res.json();
+
   return (
-    <ProductList/>
+
+    <ProductList products={products}/>
   );
 }
+
+export default Home

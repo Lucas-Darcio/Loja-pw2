@@ -12,15 +12,15 @@ export function NavBar() {
       </NavbarBrand>
       <NavbarToggle />
       <NavbarCollapse>
-        <NavbarLink href="#" active>
+        <NavbarLink as={Link} href="/" active>
           Home
         </NavbarLink>
-        <NavbarLink as={Link} href="#">
+        <NavbarLink as={Link} href="/about">
           About
         </NavbarLink>
-        <NavbarLink href="#">Services</NavbarLink>
-        <NavbarLink href="#">Pricing</NavbarLink>
-        <NavbarLink href="#">Contact</NavbarLink>
+        <NavbarLink as={Link} href="/product/create">Criar Produto</NavbarLink>
+        <NavbarLink as={Link} href="#">Pricing</NavbarLink>
+        <NavbarLink as={Link} href="#">Contact</NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );

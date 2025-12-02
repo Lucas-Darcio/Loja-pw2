@@ -3,24 +3,25 @@ import { Card } from "flowbite-react";
 import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import styles from "../product.module.css"
+import { ProductDto } from "../products.types";
 
 interface ProductCardProps {
-  name: string;
+  product: ProductDto
 }
 
-function ProductCard({name}:ProductCardProps) {
+function ProductCard({product}:ProductCardProps) {
   const [qtdCart, setQtdCard] = useState<number>(0);
 
   const decreaseCart = () => setQtdCard((p) => Math.max(p-1, 0))
   const increaseCart = () => setQtdCard((p) => Math.min(p+1, 100))
 
   return (
-    <Card href="#" className="max-w-sm">
+    <Card href={`/product/${product.id}`} className="max-w-sm">
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {name}
+        {product.name}
       </h5>
       <p className="font-normal text-gray-700 dark:text-gray-400">
-        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+        {product.description}
       </p>
       <p className="flex gap-2">
         <button 
