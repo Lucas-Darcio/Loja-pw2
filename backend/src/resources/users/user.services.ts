@@ -33,8 +33,9 @@ export async function getUserByEmail(email:string): Promise<User | null> {
     });
 }
 
-export async function getUser(id: string): Promise<User | null>{
-    return prisma.user.findUnique({ 
+export async function getUser(id?: string): Promise<User | null>{
+    if(!id) return null
+    return prisma.user.findFirst({ 
         where: { 
             id, 
         },

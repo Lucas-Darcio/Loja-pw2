@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser, getUserByEmail } from "../users/user.services";
+import { createUser, getUser, getUserByEmail } from "../users/user.services";
 import { ReasonPhrases } from "http-status-codes";
 import { StatusCodes } from "http-status-codes";
 import { UserTypes } from "../userType/userType.constants";
@@ -78,4 +78,21 @@ const logout = (req: Request, res: Response) => {
     });
 }
 
-export default {createClient, checkAuth, logout}
+
+const me = async(req: Request, res: Response) => {
+    const user = await getUser(req.session.uid)
+    if(user) {
+        res.status(StatusCodes.OK).json({
+            userId: user.id,
+            userType: user.userTypeId,
+            userName: user.name 
+        })
+    } else {
+        res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json(ReasonPhrases.INTERNAL_SERVER_ERROR)
+    }
+
+}
+
+export default {createClient, checkAuth, logout, me}

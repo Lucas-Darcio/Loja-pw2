@@ -3,7 +3,7 @@
 import ProductCard from "./ProductCard"
 import { ProductDto } from "../products.types"
 import { TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
+import {  useMemo, useState } from "react";
 
 interface ProductsListProps {
     products: ProductDto[]
@@ -11,10 +11,12 @@ interface ProductsListProps {
 
 function ProductList({products}:ProductsListProps) {
     const [searchString, setSearchString] = useState("");
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    useEffect(()=>{
-        setFilteredProducts(products.filter((p)=> p.name.toLowerCase().includes(searchString)))
-    }, [searchString, products])
+    const filteredProducts = useMemo(
+        () => products.filter((p)=> p.name.toLowerCase().includes(searchString)
+        ), 
+        [searchString, products]);
+
+
 
     return (
         <div>

@@ -12,7 +12,7 @@ const router = Router();
 // Product controller
 router.get('/', productController.index);
 router.get('/:id', productController.read);
-router.post('/', validateSchema(productSchema), productController.create);
+router.post('/', isAuth, validateSchema(productSchema), productController.create);
 router.put('/:id', isAuth, productController.update);
 router.delete('/:id', isAuth, productController.remove);
 

@@ -8,6 +8,7 @@ import { Button } from "flowbite-react";
 import { CreateProductDto } from "../products.types";
 import { useRouter } from "next/navigation";
 import productSchema from "../product.schema";
+import api from "@/utils/api";
 function ProductCreate() {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("0.00");
@@ -35,7 +36,14 @@ function ProductCreate() {
             }
             setErrors(errorsDetails)
         }
-// 
+
+        api.post("/v1/product", product).then((res) => {
+            console.log(res)
+            router.push("/")
+        }).catch((e) => {
+            console.log(e)
+        })
+
 //         fetch(`${process.env.NEXT_PUBLIC_API}/v1/product`, {
 //             method: "POST",
 //             headers: { "Content-Type": "application/json"},

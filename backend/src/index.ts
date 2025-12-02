@@ -13,13 +13,13 @@ const env = getEnv()
 
 dotenv.config();
 
-declare module "express-session" {
-interface SessionData {
-    uid: string;
-    tipoUsuario: string
-    // cart: AddPurchaseItemDTO[]
-    }
-}
+// declare module "express-session" {
+// interface SessionData {
+//     uid: string;
+//     tipoUsuario: string
+//     // cart: AddPurchaseItemDTO[]
+//     }
+// }
 
 const app = express();
 

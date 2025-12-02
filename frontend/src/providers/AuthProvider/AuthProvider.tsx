@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, ReactNode, useState } from "react";
+import api from "@/utils/api";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface UserSession {
         userId: string;
@@ -11,7 +12,7 @@ interface UserSession {
 interface IAuthContext {
     user: UserSession | null,
     login: (email: string, password: string) => Promise<boolean>,
-    logout: () => void,
+    logout: () => Promise<void>,
 }
 
 const initialAuthCOntextData: IAuthContext = {
@@ -24,38 +25,35 @@ export const AuthContext = createContext<IAuthContext>(initialAuthCOntextData);
 
 function AuthProvider({ children }: {children: ReactNode}) {
     const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        api.get("/v1/auth/me").then((res)=>{
+            setUser(res.data)
+        }).catch((err) => console.log(err))
+    }, []);
     
     const login = async (email: string, password: string) => {
-        console.log(JSON.stringify({email, password}))
+        try{
+            const res = await api.post(`/v1/auth/login`, {email, password})
 
-        const res = await fetch(`http://localhost:7788/v1/auth/login`, {
-            method: "POST",
-            body: await JSON.stringify({email, password}),
-            headers: {"Content-Type":"application/json"},
-            credentials: "include",
-        })
+            console.log(res.status)
 
-        console.log(res.status)
-
-        if(res.status === 200) {
-            const data = await res.json()
-            setUser(data)
-            return true
-        } 
-        else{
-            console.log(await res.json())
+            if(res.status === 200) {
+                setUser(res.data)
+                return true
+            }
+            return false
         }
-
-        return false
+        catch(e){
+            console.log(e)
+            return false
+        }
 
     }
 
     const logout = async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/auth/logout`, {
-            method: "POST",
-            credentials: "include"
-        });
-        if (res.ok) {
+        const res = await api.delete("/v1/auth/logout")
+        if (res.status === 200) {
             setUser(null);
         }
     };
