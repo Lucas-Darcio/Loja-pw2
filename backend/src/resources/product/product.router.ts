@@ -12,8 +12,8 @@ const router = Router();
 // Product controller
 router.get('/', productController.index);
 router.get('/:id', productController.read);
-router.post('/', isAdmin, isAuth, validateSchema(productSchema), productController.create);
-router.put('/:id', isAdmin, isAuth, productController.update);
-router.delete('/:id', isAdmin, isAuth, productController.remove);
+router.post('/', validateSchema(productSchema), productController.create);
+router.put('/:id', isAuth, productController.update);
+router.delete('/:id', isAuth, productController.remove);
 
 export default router;

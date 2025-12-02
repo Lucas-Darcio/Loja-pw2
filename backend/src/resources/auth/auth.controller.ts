@@ -32,9 +32,10 @@ const createClient = async (req: Request, res: Response) => {
 
 const checkAuth = async (req: Request, res: Response) => {
 
+    const credentials = req.body as LoginDto;
     try{
-        const credentials = req.body as LoginDto;
         const user = await checkCredentials(credentials)
+
 
         if(!user){
             res.status(StatusCodes.UNAUTHORIZED).json(ReasonPhrases.UNAUTHORIZED);
@@ -44,13 +45,17 @@ const checkAuth = async (req: Request, res: Response) => {
             req.session.uid = user.id;
             req.session.tipoUsuario = user.userTypeId;
 
-            res.status(StatusCodes.OK).json(ReasonPhrases.OK)
+            await res.status(StatusCodes.OK).json({
+                userId: user.id,
+                userType: user.userTypeId,
+                userName: user.name
+                })
         }
     }
     catch(e) {
         res
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
-            .json(ReasonPhrases.INTERNAL_SERVER_ERROR)
+            .json({"user": credentials})
     }
 
 }

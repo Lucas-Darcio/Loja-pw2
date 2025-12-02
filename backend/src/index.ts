@@ -5,8 +5,11 @@ import cookieParser from 'cookie-parser';
 import setLangCookie from "./middlewares/setLangCookie";
 import session from 'express-session';
 import { v4 as uuidv4 } from 'uuid';
+import cors from "cors"
+import getEnv from "./utils/getEnv";
 // import { AddPurchaseItemDTO } from "./resources/purchaseItems/purchaseItems.types";
 
+const env = getEnv()
 
 dotenv.config();
 
@@ -20,14 +23,20 @@ interface SessionData {
 
 const app = express();
 
+
 app.use(session({
     genid: (req) => uuidv4(),
-    secret: process.env.SESSION_SECRET as string,
+    secret: env.SESSION_SECRET as string,
     resave: true,
     saveUninitialized: true
 }));
 
-const PORT = process.env.PORT ?? 7788;
+app.use(cors({
+    origin: env.FRONTEND_URL,
+    credentials: true
+}))
+
+const PORT = env.PORT ?? 7788;
 app.use(cookieParser());
 app.use(setLangCookie);
 
