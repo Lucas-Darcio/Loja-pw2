@@ -32,7 +32,7 @@ app.use(session({
 }));
 
 app.use(cors({
-    origin: env.FRONTEND_URL,
+    origin: "http://localhost:8888",
     credentials: true
 }))
 
