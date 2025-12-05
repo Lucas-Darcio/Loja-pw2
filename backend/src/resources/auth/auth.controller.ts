@@ -89,8 +89,8 @@ const me = async(req: Request, res: Response) => {
         })
     } else {
         res
-            .status(StatusCodes.INTERNAL_SERVER_ERROR)
-            .json(ReasonPhrases.INTERNAL_SERVER_ERROR)
+            .status(StatusCodes.UNAUTHORIZED)
+            .json(ReasonPhrases.UNAUTHORIZED)
     }
 
 }
